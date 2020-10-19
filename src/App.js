@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useContext, useReducer} from 'react';
+import RouteDetailsContext from './RouteDetailsContext';
+import RouteDetailsReducer from './RouteDetailsReducer';
+import RouteDetailsTabs from './Components/RouteDetailsTabs';
+import RouteDetailsHeader from './Components/RouteDetailsHeader';
+import RouteDetailsFilter from './Components/RouteDetailsFilter';
+import RouteDetailsTable from './Components/RouteDetailsTable';
+import './App.scss';
 
 function App() {
+  const initialState = useContext(RouteDetailsContext);
+  const [state, dispatch] = useReducer(RouteDetailsReducer, initialState, undefined);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <RouteDetailsContext.Provider value={{state, dispatch}}>
+        <div className="App">
+          <RouteDetailsHeader/>
+          <RouteDetailsTabs/>
+          <div className="route-body">
+            <RouteDetailsFilter/>
+            <RouteDetailsTable/>
+          </div>
+        </div>
+      </RouteDetailsContext.Provider>
   );
 }
 
